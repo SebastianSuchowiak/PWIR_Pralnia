@@ -18,7 +18,7 @@
 main() ->
   Machines = create_washing_machines([5, 6, 7, 8]),
   Starting_washing_liquid = 1000,
-  Starting_washing_powder = 1000,
+  Starting_washing_powder = 9,
   Starting_money = 100,
   ets:new(laundry, [named_table, public, set]),
   ets:insert(laundry, {machines, Machines}),
@@ -162,13 +162,15 @@ start_washing() ->
   Resources_are_available = (get_liquid() >= Needed_liquid) and (get_powder() >= Needed_powder),
   if
     Resources_are_available ->
-      ;
+      use_liquid(Needed_liquid),
+      use_powder(Needed_powder),
+      start_machine(Id, Weight, Program),
+      view_washing_progress(Id,5);
     true ->
+      io:fwrite("There is not enough liquid or powder! Try again later~n")
+  end.
 
-  end,
 
-  start_machine(Id, Weight, Program),
-  view_washing_progress(Id,5).
 
 
 show_machines() ->
@@ -215,7 +217,7 @@ get_machine_time(Id) ->
 
 
 get_machine_needed_resources(Id, Weight, Program) ->
-  send_command_to_machine_and_get_output(Id, {get_needed_resources}).
+  send_command_to_machine_and_get_output(Id, {get_needed_resources, Weight, Program}).
 
 
 get_machine_progress(Id) ->
@@ -241,6 +243,20 @@ send_command_to_machine_and_get_output(Id, Command) ->
 
 
 get_inbox() -> receive X -> X end.
+
+
+use_liquid(Weight) ->
+  [{washing_liquid, OldLiquid}] = ets:lookup(laundry, washing_liquid),
+  NewLiquid = OldLiquid - Weight,
+  ets:delete(laundry, washing_liquid),
+  ets:insert(laundry, {washing_liquid, NewLiquid}).
+
+
+use_powder(Weight) ->
+  [{washing_powder, OldPowder}] = ets:lookup(laundry, washing_powder),
+  NewPowder = OldPowder - Weight,
+  ets:delete(laundry, washing_powder),
+  ets:insert(laundry, {washing_powder, NewPowder}).
 
 
 get_powder() ->
