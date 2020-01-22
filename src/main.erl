@@ -13,6 +13,7 @@
 -export([main/0, create_washing_machines/1, machine_exists/1]).
 -import(mochinum, [digits/1]).
 -import(washing_machine,[init/1]).
+-import(wash_machine_print, [get_data/0, print_animation/3]).
 -import(command_managerr,[command/1,read_number/1]).
 
 
@@ -117,7 +118,9 @@ view_washing_progress(Id,Viewing_time) ->
     Viewing_time < 0 ->
       ok;
     Time > 0.5 ->
-      timer:sleep(500),
+      timer:sleep(150),
+      Data = wash_machine_print:get_data(),
+      {Animation_status1, Animation_status2} = print_animation(Data, 2, 1),
       view_washing_progress(Id,Viewing_time-0.5);
     true ->
       ok
@@ -167,7 +170,8 @@ start_washing() ->
       use_powder(Needed_powder),
       add_money(Price),
       start_machine(Id, Weight, Program),
-      io_lib:format("~.1f zl was paid", [Price]),
+      % TODO: print price
+      %io:fwrite("~w zl was paid~n", [io_lib:format("~.1f zl was paid", [Price])]),
       view_washing_progress(Id,5);
     true ->
       io:fwrite("There is not enough liquid or powder! Try again later~n")
