@@ -115,12 +115,12 @@ view_washing_progress(Id,Viewing_time) ->
   io:format("\ec"),
   io:fwrite("Time Left:~w~n",[math:floor(Time)]),
   create_progress_bar(Progress),
-  print_animation(),
   if
     Viewing_time < 0 ->
       ok;
     Time > 0.5 ->
       timer:sleep(150),
+      print_animation(),
       view_washing_progress(Id,Viewing_time-0.5);
     true ->
       ok
