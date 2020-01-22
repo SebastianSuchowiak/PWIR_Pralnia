@@ -17,12 +17,14 @@
 
 main() ->
   Machines = create_washing_machines([5, 6, 7, 8]),
-  Washing_liquid = 1000,
-  Washing_powder = 1000,
+  Starting_washing_liquid = 1000,
+  Starting_washing_powder = 1000,
+  Starting_money = 100,
   ets:new(laundry, [named_table, public, set]),
   ets:insert(laundry, {machines, Machines}),
-  ets:insert(laundry, {washing_liquid, Washing_liquid}),
-  ets:insert(laundry, {washing_powder, Washing_powder}),
+  ets:insert(laundry, {washing_liquid, Starting_washing_liquid}),
+  ets:insert(laundry, {washing_powder, Starting_washing_powder}),
+  ets:insert(laundry, {money, Starting_money}),
   timer:sleep(500),
   main_loop().
 
@@ -156,6 +158,15 @@ start_washing() ->
       ok
   end,
 
+  {Needed_powder, Needed_liquid, Price} = get_machine_needed_resources(Id, Weight, Program),
+  Resources_are_available = (get_liquid() >= Needed_liquid) and (get_powder() >= Needed_powder),
+  if
+    Resources_are_available ->
+      ;
+    true ->
+
+  end,
+
   start_machine(Id, Weight, Program),
   view_washing_progress(Id,5).
 
@@ -203,8 +214,8 @@ get_machine_time(Id) ->
   send_command_to_machine_and_get_output(Id, {get_time}).
 
 
-get_machine_needed_liquid_and_powder(Id, Weight, Program) ->
-  send_command_to_machine_and_get_output(Id, {get_needed_liquid_and_powder}).
+get_machine_needed_resources(Id, Weight, Program) ->
+  send_command_to_machine_and_get_output(Id, {get_needed_resources}).
 
 
 get_machine_progress(Id) ->
@@ -232,6 +243,16 @@ send_command_to_machine_and_get_output(Id, Command) ->
 get_inbox() -> receive X -> X end.
 
 
+get_powder() ->
+  [{washing_powder, Powder}] = ets:lookup(laundry, washing_powder),
+  Powder.
+
+
+get_liquid() ->
+  [{washing_liquid, Liquid}] = ets:lookup(laundry, washing_liquid),
+  Liquid.
+
+
 get_machines() ->
-  [{machines,Machines}] = ets:lookup(laundry, machines),
+  [{machines, Machines}] = ets:lookup(laundry, machines),
   Machines.

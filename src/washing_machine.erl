@@ -14,7 +14,6 @@
 
 
 init({From, Capacity}) ->
-  %io:fwrite("Washing machine started with capacity: ~w~n", [Capacity]),
   receive
     {From, {get_status}} ->
       From ! idle,
@@ -28,8 +27,9 @@ init({From, Capacity}) ->
       init({From,Capacity});
     {From, {start,Weight,Program}} ->
       start_washing(From,Capacity,Program);
-    {From, {get_needed_liquid_and_powder, Weight, Program}} ->
-      From ! calculate_needed_resources(Weight, Program)
+    {From, {get_needed_resources, Weight, Program}} ->
+      From ! calculate_needed_resources(Weight, Program),
+      init({From,Capacity})
   end.
 
 
@@ -71,7 +71,7 @@ start_washing(From,Capacity,Program) ->
 
 
 calculate_needed_resources(Weight, Program) ->
-  {get_liquid(Program, Weight), get_powder(Program, Weight)}.
+  {get_liquid(Program, Weight), get_powder(Program, Weight), get_cost(Program, Weight)}.
 
 
 calculate_progress(Max_time,Time) ->
