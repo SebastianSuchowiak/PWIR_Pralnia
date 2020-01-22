@@ -6,7 +6,7 @@
 %%% @end
 %%% Created : 19. Jan 2020 16:43
 %%%-------------------------------------------------------------------
--module(washing_machine).
+-module(washing_machinee).
 -author("sebastian").
 
 %% API

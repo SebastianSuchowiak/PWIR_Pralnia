@@ -13,6 +13,8 @@
 -export([machine_exists/1,can_machine_fit/2, get_machine_status/1, get_machine_needed_resources/3,
   get_machine_time/1, get_machine_progress/1, get_machine_capacity/1, stop_machine/1, start_machine/3]).
 
+-import(resources, [get_machines/0]).
+
 
 machine_exists(Id) ->
   Machines = get_machines(),
@@ -66,11 +68,6 @@ send_command_to_machine(Id, Command) ->
 send_command_to_machine_and_get_output(Id, Command) ->
   send_command_to_machine(Id, Command),
   get_inbox().
-
-
-get_machines() ->
-  [{machines, Machines}] = ets:lookup(laundry, machines),
-  Machines.
 
 
 get_inbox() -> receive X -> X end.

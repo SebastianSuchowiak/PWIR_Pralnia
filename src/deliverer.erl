@@ -8,7 +8,10 @@
 %%%-------------------------------------------------------------------
 -module(deliverer).
 
+-import(resources, [get_powder/0, get_liquid/0]).
+
 -export([start/1]).
+
 
 start({From,Max_powder,Max_liquid}) ->
   receive
@@ -63,13 +66,3 @@ subtract_cash(Amount) ->
   [{money, Current_money}] = ets:lookup(laundry, money),
   ets:delete(laundry, money),
   ets:insert(laundry, {money, Current_money - Amount}).
-
-
-get_powder() ->
-  [{washing_powder, Powder}] = ets:lookup(laundry, washing_powder),
-  Powder.
-
-
-get_liquid() ->
-  [{washing_liquid, Liquid}] = ets:lookup(laundry, washing_liquid),
-  Liquid.

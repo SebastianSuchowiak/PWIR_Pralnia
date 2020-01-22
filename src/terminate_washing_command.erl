@@ -4,13 +4,15 @@
 %%% @doc
 %%%
 %%% @end
-%%% Created : 22. Jan 2020 14:05
+%%% Created : 22. Jan 2020 15:02
 %%%-------------------------------------------------------------------
--module(terminate_command).
+-module(terminate_washing_command).
 -author("sebastian").
 
 %% API
 -export([terminate_washing/0]).
+
+-import(machine_communication, [machine_exists/1, get_machine_status/1, stop_machine/1]).
 
 
 terminate_washing() ->
@@ -22,7 +24,7 @@ terminate_washing() ->
       ok;
     true ->
       io:fwrite("Machine with this ID doesn't exist~n"),
-      view_progress()
+      terminate_washing()
   end,
 
   Status = get_machine_status(Id),
