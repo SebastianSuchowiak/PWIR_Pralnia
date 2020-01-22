@@ -13,12 +13,13 @@
 -export([main/0, create_washing_machines/1, machine_exists/1]).
 -import(mochinum, [digits/1]).
 -import(washing_machine,[init/1]).
--import(wash_machine_print, [get_data/0, print_animation/3]).
+-import(wash_machine_print, [print_animation/0, prepare_animation/0]).
 -import(command_managerr,[command/1,read_number/1]).
 
 
 main() ->
   Machines = create_washing_machines([5, 6, 7, 8]),
+  prepare_animation(),
   Starting_washing_liquid = 100,
   Starting_washing_powder = 100,
   Starting_money = 100,
@@ -114,13 +115,12 @@ view_washing_progress(Id,Viewing_time) ->
   io:format("\ec"),
   io:fwrite("Time Left:~w~n",[math:floor(Time)]),
   create_progress_bar(Progress),
+  print_animation(),
   if
     Viewing_time < 0 ->
       ok;
     Time > 0.5 ->
       timer:sleep(150),
-      Data = wash_machine_print:get_data(),
-      {Animation_status1, Animation_status2} = print_animation(Data, 2, 1),
       view_washing_progress(Id,Viewing_time-0.5);
     true ->
       ok
