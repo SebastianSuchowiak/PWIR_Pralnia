@@ -1,0 +1,237 @@
+%%%-------------------------------------------------------------------
+%%% @author sebastian
+%%% @copyright (C) 2020, <COMPANY>
+%%% @doc
+%%%
+%%% @end
+%%% Created : 19. Jan 2020 17:49
+%%%-------------------------------------------------------------------
+-module(main).
+-author("sebastian").
+
+%% API
+-export([main/0, create_washing_machines/1, machine_exists/1]).
+-import(washing_machine,[init/1]).
+-import(command_managerr,[command/1,read_number/1]).
+
+
+main() ->
+  Machines = create_washing_machines([5, 6, 7, 8]),
+  Washing_liquid = 1000,
+  Washing_powder = 1000,
+  ets:new(laundry, [named_table, public, set]),
+  ets:insert(laundry, {machines, Machines}),
+  ets:insert(laundry, {washing_liquid, Washing_liquid}),
+  ets:insert(laundry, {washing_powder, Washing_powder}),
+  timer:sleep(500),
+  main_loop().
+
+
+create_washing_machines(ToCreate) ->
+  create_washing_machines(ToCreate, []).
+
+
+create_washing_machines([], Created) ->
+  Created;
+
+
+create_washing_machines([Next | To_create], Created) ->
+  New_machine = spawn(washing_machine, init, [{self(), Next}]),
+  create_washing_machines(To_create, Created ++ [New_machine]).
+
+
+main_loop() ->
+  Command = command_managerr:command(read_action),
+  execute_command(Command),
+  %show_machines(Machines),
+  %start_washing(Machines),
+  main_loop().
+
+
+execute_command(Command) ->
+  case Command of
+    l ->
+      show_machines();
+    s ->
+      start_washing();
+    p ->
+      view_progress();
+    t ->
+       terminate_washing()
+  end.
+
+
+terminate_washing() ->
+  Id = command_managerr:read_number("Enter Washing Machine ID: "),
+
+  Machine_exist = machine_exists(Id),
+  if
+    Machine_exist == true ->
+      ok;
+    true ->
+      io:fwrite("Machine with this ID doesn't exist~n"),
+      view_progress()
+  end,
+
+  Status = get_machine_status(Id),
+  if
+    Status == working ->
+      stop_machine(Id),
+    io:fwrite("Machine sotoped~n");
+    true ->
+      io:fwrite("This machine is Idle~n")
+  end.
+
+
+view_progress() ->
+  Id = command_managerr:read_number("Enter Washing Machine ID: "),
+
+  Machine_exist = machine_exists(Id),
+  if
+    Machine_exist == true ->
+      ok;
+    true ->
+      io:fwrite("Machine with this ID doesn't exist~n"),
+      view_progress()
+  end,
+
+  Status = get_machine_status(Id),
+  if
+    Status == working ->
+      view_washing_progress(Id,5);
+    true ->
+      io:fwrite("This machine is Idle~n")
+  end.
+
+
+view_washing_progress(Id,Viewing_time) ->
+  Time = get_machine_time(Id),
+  Progress = get_machine_progress(Id),
+  io:format("\ec"),
+  io:fwrite("Time Left:~w~n",[math:floor(Time)]),
+  create_progress_bar(Progress),
+  if
+    Viewing_time < 0 ->
+      ok;
+    Time > 0.5 ->
+      timer:sleep(500),
+      view_washing_progress(Id,Viewing_time-0.5);
+    true ->
+      ok
+  end.
+
+
+create_progress_bar(Progress) ->
+  N = round(Progress/5),
+  io:fwrite("Progress: |~ts|%~n", [lists:duplicate(N, "█") ++ lists:duplicate(20-N, "-")]).
+
+
+start_washing() ->
+  {Id,Weight,Program} = command_managerr:command(start_washing),
+
+  Machine_exist = machine_exists(Id),
+  if
+    Machine_exist == true ->
+      ok;
+    true ->
+      io:fwrite("Machine with this ID doesn't exist~n"),
+      view_progress()
+  end,
+
+  Status = get_machine_status(Id),
+  if
+    Status == working ->
+      io:fwrite("Select another Washing Mashine, this one is already working~n"),
+      start_washing();
+    true ->
+      ok
+  end,
+
+  Can_fit = can_machine_fit(Id, Weight),
+  if
+    Can_fit == false ->
+      io:fwrite("Too much laundry! Weight is too big~n"),
+      start_washing();
+    true ->
+      ok
+  end,
+
+  start_machine(Id, Weight, Program),
+  view_washing_progress(Id,5).
+
+
+show_machines() ->
+  get_machines_statuses(1).
+
+
+get_machines_statuses(N) ->
+  Status = get_machine_status(N),
+  Capacity = get_machine_capacity(N),
+  io:fwrite("Washing Machine ~w Capacity ~w Status: ~w~n", [N, Capacity, Status]),
+
+  Is_this_last_machine = machine_exists(N+1) == false,
+  if
+    Is_this_last_machine -> ok;
+    true -> get_machines_statuses(N + 1)
+  end.
+
+
+machine_exists(Id) ->
+  Machines = get_machines(),
+  Condition = (length(Machines) >= Id) and (Id > 0),
+  if
+    Condition  ->
+      true;
+    true ->
+      false
+  end.
+
+
+get_machine_status(Id) ->
+  send_command_to_machine_and_get_output(Id, {get_status}).
+
+
+can_machine_fit(Id, Weight) ->
+  send_command_to_machine_and_get_output(Id, {check_capacity, Weight}).
+
+
+start_machine(Id, Weight, Program) ->
+  send_command_to_machine(Id, {start,Weight,Program}).
+
+
+get_machine_time(Id) ->
+  send_command_to_machine_and_get_output(Id, {get_time}).
+
+
+get_machine_needed_liquid_and_powder(Id, Weight, Program) ->
+  send_command_to_machine_and_get_output(Id, {get_needed_liquid_and_powder}).
+
+
+get_machine_progress(Id) ->
+  send_command_to_machine_and_get_output(Id, {get_progress}).
+
+
+get_machine_capacity(Id) ->
+  send_command_to_machine_and_get_output(Id, {get_capacity}).
+
+
+stop_machine(Id) ->
+  send_command_to_machine(Id, {stop}).
+
+
+send_command_to_machine(Id, Command) ->
+  Machines = get_machines(),
+  Pid = lists:nth(Id,Machines),
+  Pid ! {self(), Command}.
+
+send_command_to_machine_and_get_output(Id, Command) ->
+  send_command_to_machine(Id, Command),
+  get_inbox().
+
+
+get_inbox() -> receive X -> X end.
+
+
+get_machines() ->
+  [{machines,Machines}] = ets:lookup(laundry, machines),
+  Machines.
