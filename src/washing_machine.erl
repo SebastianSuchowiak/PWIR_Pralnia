@@ -61,7 +61,12 @@ work({From, Capacity, MaxTime, Time}) ->
       init({From, Capacity})
 
     after 100 ->
-      work({From,Capacity,MaxTime,Time - 0.1})
+      if
+        (Time =< 0) ->
+          init({From, Capacity});
+        true ->
+          work({From,Capacity,MaxTime,Time - 0.1})
+      end
   end.
 
 

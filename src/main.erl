@@ -11,14 +11,15 @@
 
 %% API
 -export([main/0, create_washing_machines/1, machine_exists/1]).
+-import(mochinum, [digits/1]).
 -import(washing_machine,[init/1]).
 -import(command_managerr,[command/1,read_number/1]).
 
 
 main() ->
   Machines = create_washing_machines([5, 6, 7, 8]),
-  Starting_washing_liquid = 1000,
-  Starting_washing_powder = 9,
+  Starting_washing_liquid = 100,
+  Starting_washing_powder = 100,
   Starting_money = 100,
   ets:new(laundry, [named_table, public, set]),
   ets:insert(laundry, {machines, Machines}),
@@ -158,19 +159,19 @@ start_washing() ->
       ok
   end,
 
-  {Needed_powder, Needed_liquid, Price} = get_machine_needed_resources(Id, Weight, Program),
+  {Needed_liquid, Needed_powder, Price} = get_machine_needed_resources(Id, Weight, Program),
   Resources_are_available = (get_liquid() >= Needed_liquid) and (get_powder() >= Needed_powder),
   if
     Resources_are_available ->
       use_liquid(Needed_liquid),
       use_powder(Needed_powder),
+      add_money(Price),
       start_machine(Id, Weight, Program),
+      io_lib:format("~.1f zl was paid", [Price]),
       view_washing_progress(Id,5);
     true ->
       io:fwrite("There is not enough liquid or powder! Try again later~n")
   end.
-
-
 
 
 show_machines() ->
@@ -245,15 +246,22 @@ send_command_to_machine_and_get_output(Id, Command) ->
 get_inbox() -> receive X -> X end.
 
 
+add_money(Amount) ->
+  OldMoney = get_money(),
+  NewMoney = OldMoney + Amount,
+  ets:delete(laundry, money),
+  ets:insert(laundry, {money, NewMoney}).
+
+
 use_liquid(Weight) ->
-  [{washing_liquid, OldLiquid}] = ets:lookup(laundry, washing_liquid),
+  OldLiquid = get_liquid(),
   NewLiquid = OldLiquid - Weight,
   ets:delete(laundry, washing_liquid),
   ets:insert(laundry, {washing_liquid, NewLiquid}).
 
 
 use_powder(Weight) ->
-  [{washing_powder, OldPowder}] = ets:lookup(laundry, washing_powder),
+  OldPowder = get_powder(),
   NewPowder = OldPowder - Weight,
   ets:delete(laundry, washing_powder),
   ets:insert(laundry, {washing_powder, NewPowder}).
@@ -267,6 +275,11 @@ get_powder() ->
 get_liquid() ->
   [{washing_liquid, Liquid}] = ets:lookup(laundry, washing_liquid),
   Liquid.
+
+
+get_money() ->
+  [{money, Money}] = ets:lookup(laundry, money),
+  Money.
 
 
 get_machines() ->
