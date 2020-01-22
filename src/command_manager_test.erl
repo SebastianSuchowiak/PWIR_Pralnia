@@ -25,5 +25,6 @@ test_validate_action_test_() ->
     ?_assertEqual(true, command_managerr:validate_action(t)),
     ?_assertEqual(true, command_managerr:validate_action(l)),
     ?_assertEqual(true, command_managerr:validate_action(p)),
+    ?_assertEqual(true, command_managerr:validate_action(r)),
     ?_assertEqual(false, command_managerr:validate_action(p1)),
     ?_assertEqual(false, command_managerr:validate_action(a))].

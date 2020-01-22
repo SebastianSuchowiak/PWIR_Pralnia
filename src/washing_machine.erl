@@ -108,7 +108,7 @@ get_program(Program) ->
 
 get_programs() ->
   #{
-    1 => #{"PowPerKg" => 1, "LiqPerKg" => 1, "CostPerKg" => 1, "Time" => 60},
-    2 => #{"PowPerKg" => 1.5, "LiqPerKg" => 2, "CostPerKg" => 2, "Time" => 60},
-    3 => #{"PowPerKg" => 1.5, "LiqPerKg" => 1, "CostPerKg" => 1.5, "Time" => 70},
+    1 => #{"PowPerKg" => 1, "LiqPerKg" => 1, "CostPerKg" => 1, "Time" => 5},
+    2 => #{"PowPerKg" => 10, "LiqPerKg" => 10, "CostPerKg" => 30, "Time" => 45},
+    3 => #{"PowPerKg" => 1.5, "LiqPerKg" => 1, "CostPerKg" => 1.5, "Time" => 30},
     4 => #{"PowPerKg" => 0.7, "LiqPerKg" => 0.7, "CostPerKg" => 1, "Time" => 30}}.

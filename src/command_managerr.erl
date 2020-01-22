@@ -59,7 +59,8 @@ print_actions() ->
   io:fwrite("Press s to start washing~n"),
   io:fwrite("Press l to list washing machines~n"),
   io:fwrite("Press p to view progress of selected machine~n"),
-  io:fwrite("Press t to terminate washing process ~n").
+  io:fwrite("Press t to terminate washing process ~n"),
+  io:fwrite("Press r to show resources ~n").
 
 
 read_action() ->
@@ -74,5 +75,5 @@ read_action() ->
   end.
 
 validate_action(Action) ->
-  Possible_actions = [s,l,p,t],
+  Possible_actions = [s,l,p,t,r],
   lists:member(Action,Possible_actions).

@@ -13,23 +13,37 @@
 -export([main/0, create_washing_machines/1, machine_exists/1]).
 -import(mochinum, [digits/1]).
 -import(washing_machine,[init/1]).
--import(wash_machine_print, [print_animation/0, prepare_animation/0]).
+-import(deliverer, [start/1]).
+-import(print_washing_machine, [print_animation/0, prepare_animation/0]).
 -import(command_managerr,[command/1,read_number/1]).
+-import(resources,[get_machines/0, get_machine/0, get_money/0, get_liquid/0, get_powder/0, use_powder/1, use_liquid/1, add_money/1]).
 
 
 main() ->
-  Machines = create_washing_machines([5, 6, 7, 8]),
+  init_resources(),
   prepare_animation(),
-  Starting_washing_liquid = 100,
-  Starting_washing_powder = 100,
-  Starting_money = 100,
+  start_deliverer(),
+  timer:sleep(500),
+  main_loop().
+
+
+start_deliverer() ->
+  spawn(deliverer, start, [{self(), 200.0, 200}]).
+
+
+init_resources() ->
   ets:new(laundry, [named_table, public, set]),
+
+  Machines = create_washing_machines([5, 6, 7, 8]),
+  ets:insert(laundry, {machines, Machines}),
+
+  Starting_washing_liquid = 1000.0,
+  Starting_washing_powder = 100.0,
+  Starting_money = 100.0,
   ets:insert(laundry, {machines, Machines}),
   ets:insert(laundry, {washing_liquid, Starting_washing_liquid}),
   ets:insert(laundry, {washing_powder, Starting_washing_powder}),
-  ets:insert(laundry, {money, Starting_money}),
-  timer:sleep(500),
-  main_loop().
+  ets:insert(laundry, {money, Starting_money}).
 
 
 create_washing_machines(ToCreate) ->
@@ -48,8 +62,6 @@ create_washing_machines([Next | To_create], Created) ->
 main_loop() ->
   Command = command_managerr:command(read_action),
   execute_command(Command),
-  %show_machines(Machines),
-  %start_washing(Machines),
   main_loop().
 
 
@@ -62,8 +74,18 @@ execute_command(Command) ->
     p ->
       view_progress();
     t ->
-       terminate_washing()
+       terminate_washing();
+    r ->
+      show_resources()
   end.
+
+
+
+show_resources() ->
+  Money = float_to_list(get_money(), [{decimals,2}]),
+  Powder = float_to_list(get_powder(), [{decimals,2}]),
+  Liquid = float_to_list(get_liquid(), [{decimals,2}]),
+  io:fwrite("Money: ~s~nPowder: ~s~nLiquid: ~s~n", [Money, Powder, Liquid]).
 
 
 terminate_washing() ->
@@ -115,16 +137,15 @@ view_washing_progress(Id,Viewing_time) ->
   io:format("\ec"),
   io:fwrite("Time Left:~w~n",[math:floor(Time)]),
   create_progress_bar(Progress),
+  print_animation(),
   if
     Viewing_time < 0 ->
       ok;
-    Time > 0.5 ->
+    Time > 0.150 ->
       timer:sleep(150),
-      print_animation(),
-      view_washing_progress(Id,Viewing_time-0.5);
-    true ->
-      ok
-  end.
+      view_washing_progress(Id,Viewing_time-0.150)
+  end,
+  io:format("\ec").
 
 
 create_progress_bar(Progress) ->
@@ -248,44 +269,3 @@ send_command_to_machine_and_get_output(Id, Command) ->
 
 
 get_inbox() -> receive X -> X end.
-
-
-add_money(Amount) ->
-  OldMoney = get_money(),
-  NewMoney = OldMoney + Amount,
-  ets:delete(laundry, money),
-  ets:insert(laundry, {money, NewMoney}).
-
-
-use_liquid(Weight) ->
-  OldLiquid = get_liquid(),
-  NewLiquid = OldLiquid - Weight,
-  ets:delete(laundry, washing_liquid),
-  ets:insert(laundry, {washing_liquid, NewLiquid}).
-
-
-use_powder(Weight) ->
-  OldPowder = get_powder(),
-  NewPowder = OldPowder - Weight,
-  ets:delete(laundry, washing_powder),
-  ets:insert(laundry, {washing_powder, NewPowder}).
-
-
-get_powder() ->
-  [{washing_powder, Powder}] = ets:lookup(laundry, washing_powder),
-  Powder.
-
-
-get_liquid() ->
-  [{washing_liquid, Liquid}] = ets:lookup(laundry, washing_liquid),
-  Liquid.
-
-
-get_money() ->
-  [{money, Money}] = ets:lookup(laundry, money),
-  Money.
-
-
-get_machines() ->
-  [{machines, Machines}] = ets:lookup(laundry, machines),
-  Machines.
