@@ -1,51 +1,23 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="8e4ec4d3-766a-4ff8-9100-78feb0fbcb10" name="Default Changelist" comment="Pretty print">
-      <change afterPath="$PROJECT_DIR$/.gitignore" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/ebin/command_manager_test.beam" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/ebin/command_managerr.beam" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/ebin/deliverer.beam" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/ebin/machine_communication.beam" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/ebin/main.beam" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/ebin/main_test.beam" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/ebin/print_washing_machine.beam" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/ebin/resources.beam" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/ebin/show_machines_command.beam" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/ebin/show_resources_command.beam" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/ebin/start_washing_command.beam" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/ebin/terminate_washing_command.beam" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/ebin/view_progress_command.beam" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/ebin/washing_machine_test.beam" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/ebin/washing_machinee.beam" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/command_manager_test.beam" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/command_managerr.beam" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/deliverer.beam" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/machine_communication.beam" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main.beam" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main_test.beam" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/print_washing_machine.beam" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/resources.beam" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/show_machines_command.beam" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/show_resources_command.beam" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/start_washing_command.beam" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/terminate_washing_command.beam" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/view_progress_command.beam" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/washing_machine_test.beam" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/washing_machinee.beam" afterDir="false" />
+    <list default="true" id="8e4ec4d3-766a-4ff8-9100-78feb0fbcb10" name="Default Changelist" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/Pralki/command_manager_test.beam" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/Pralki/command_managerr.beam" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/Pralki/main.beam" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/Pralki/main_test.beam" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/Pralki/washing_machine.beam" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/Pralki/washing_machine_test.beam" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/test/Pralki/command_manager_test.beam" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/test/Pralki/command_managerr.beam" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/test/Pralki/main.beam" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/test/Pralki/main_test.beam" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/test/Pralki/washing_machine.beam" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/test/Pralki/washing_machine_test.beam" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/ebin/command_manager_test.beam" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/ebin/command_managerr.beam" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/ebin/deliverer.beam" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/ebin/machine_communication.beam" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/ebin/main.beam" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/ebin/main_test.beam" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/ebin/print_washing_machine.beam" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/ebin/resources.beam" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/ebin/show_machines_command.beam" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/ebin/show_resources_command.beam" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/ebin/start_washing_command.beam" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/ebin/terminate_washing_command.beam" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/ebin/view_progress_command.beam" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/ebin/washing_machine_test.beam" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/ebin/washing_machinee.beam" beforeDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -154,7 +126,7 @@
       <updated>1579445011443</updated>
       <workItem from="1579445017112" duration="8525000" />
       <workItem from="1579457062659" duration="16532000" />
-      <workItem from="1579635520177" duration="45762000" />
+      <workItem from="1579635520177" duration="46032000" />
     </task>
     <task id="LOCAL-00001" summary="Added money for real">
       <created>1579654469673</created>
@@ -233,7 +205,21 @@
       <option name="project" value="LOCAL" />
       <updated>1579809000129</updated>
     </task>
-    <option name="localTasksCounter" value="12" />
+    <task id="LOCAL-00012" summary="Pretty print">
+      <created>1579809406441</created>
+      <option name="number" value="00012" />
+      <option name="presentableId" value="LOCAL-00012" />
+      <option name="project" value="LOCAL" />
+      <updated>1579809406441</updated>
+    </task>
+    <task id="LOCAL-00013" summary="Pretty print">
+      <created>1579809412008</created>
+      <option name="number" value="00013" />
+      <option name="presentableId" value="LOCAL-00013" />
+      <option name="project" value="LOCAL" />
+      <updated>1579809412008</updated>
+    </task>
+    <option name="localTasksCounter" value="14" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -285,13 +271,13 @@
     <MESSAGE value="Added money for real" />
     <MESSAGE value="Added money for real more" />
     <MESSAGE value="Added resources" />
-    <MESSAGE value="Pretty print" />
     <MESSAGE value="Deleted beams from src" />
     <MESSAGE value="starting refactor" />
     <MESSAGE value="After refactor" />
     <MESSAGE value="Final code refactor" />
     <MESSAGE value="Build and run instructions" />
-    <option name="LAST_COMMIT_MESSAGE" value="Build and run instructions" />
+    <MESSAGE value="Pretty print" />
+    <option name="LAST_COMMIT_MESSAGE" value="Pretty print" />
   </component>
   <component name="WindowStateProjectService">
     <state x="174" y="366" key="#com.intellij.execution.impl.EditConfigurationsDialog" timestamp="1579446036219">
@@ -302,10 +288,10 @@
       <screen x="1366" y="0" width="1920" height="1080" />
     </state>
     <state x="1973" y="344" width="695" height="390" key="#com.intellij.fileTypes.FileTypeChooser/67.339.1299.741/1366.0.1920.1080@1366.0.1920.1080" timestamp="1579806686898" />
-    <state x="1891" y="135" width="860" height="807" key="CommitChangelistDialog2" timestamp="1579809406364">
+    <state x="1891" y="135" width="860" height="807" key="CommitChangelistDialog2" timestamp="1579809411938">
       <screen x="1366" y="0" width="1920" height="1080" />
     </state>
-    <state x="1891" y="135" width="860" height="807" key="CommitChangelistDialog2/67.339.1299.741/1366.0.1920.1080@1366.0.1920.1080" timestamp="1579809406364" />
+    <state x="1891" y="135" width="860" height="807" key="CommitChangelistDialog2/67.339.1299.741/1366.0.1920.1080@1366.0.1920.1080" timestamp="1579809411938" />
     <state width="1253" height="445" key="GridCell.Tab.0.bottom" timestamp="1579725062878">
       <screen x="0" y="312" width="1366" height="768" />
     </state>
@@ -330,10 +316,10 @@
     <state width="1253" height="445" key="GridCell.Tab.0.right/0.312.1366.768/1366.0.1920.1080@0.312.1366.768" timestamp="1579725062878" />
     <state width="1874" height="445" key="GridCell.Tab.0.right/67.339.1299.741/1366.0.1920.1080@1366.0.1920.1080" timestamp="1579722357832" />
     <state width="1253" height="175" key="GridCell.Tab.0.right/67.339.1299.741/1366.0.1920.1080@67.339.1299.741" timestamp="1579446853023" />
-    <state x="1921" y="275" width="800" height="528" key="Vcs.Push.Dialog.v2" timestamp="1579809002413">
+    <state x="1921" y="275" width="800" height="528" key="Vcs.Push.Dialog.v2" timestamp="1579809421302">
       <screen x="1366" y="0" width="1920" height="1080" />
     </state>
-    <state x="1921" y="275" width="800" height="528" key="Vcs.Push.Dialog.v2/67.339.1299.741/1366.0.1920.1080@1366.0.1920.1080" timestamp="1579809002413" />
+    <state x="1921" y="275" width="800" height="528" key="Vcs.Push.Dialog.v2/67.339.1299.741/1366.0.1920.1080@1366.0.1920.1080" timestamp="1579809421302" />
     <state x="1499" y="51" width="1720" height="882" key="com.intellij.history.integration.ui.views.DirectoryHistoryDialog" timestamp="1579662983758">
       <screen x="1366" y="0" width="1920" height="1080" />
     </state>
