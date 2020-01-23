@@ -9,15 +9,16 @@
 -module(main_test).
 -author("sebastian").
 
--import(main, [create_washing_machines/1, machine_exists/1]).
 -include_lib("eunit/include/eunit.hrl").
 
 test_machine_exists_test_() ->
   Machines = main:create_washing_machines([5, 6, 7, 8]),
-  ets:new(test, [named_table, public, set]),
-  ets:insert(test, {machines, Machines}),
-  [?_assertEqual(true, main:machine_exists(1)),
-    ?_assertEqual(false, main:machine_exists(-2)),
-    ?_assertEqual(false, main:machine_exists(0)),
-    ?_assertEqual(false,main:machine_exists(5))].
+  ets:new(laundry, [named_table, public, set]),
+  ets:insert(laundry, {machines, Machines}),
+  [?_assertEqual(machine_communication:machine_exists(1)),
+    ?_assert(machine_communication:machine_exists(0)),
+    ?_assert(machine_communication:machine_exists(1)),
+    ?_assert(machine_communication:machine_exists(1)),
+    ?_assert(machine_communication:machine_exists(1)),].
+
 

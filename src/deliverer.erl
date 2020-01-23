@@ -15,7 +15,7 @@
 
 start({From,Max_powder,Max_liquid}) ->
   receive
-  after 6000 ->
+  after 30000 ->
     buy_items(Max_powder,Max_liquid),
     start({From,Max_powder,Max_liquid})
   end.

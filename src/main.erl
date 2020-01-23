@@ -10,7 +10,7 @@
 -author("sebastian").
 
 %% API
--export([main/0]).
+-export([main/0, create_washing_machines/1]).
 -import(washing_machinee,[init/1]).
 -import(deliverer, [start/1]).
 -import(print_washing_machine, [prepare_animation/0]).
@@ -52,7 +52,7 @@ execute_command(Command) ->
 
 
 start_deliverer() ->
-  spawn(deliverer, start, [{self(), 200.0, 200}]).
+  spawn(deliverer, start, [{self(), 200.0, 200.0}]).
 
 
 init_resources() ->
@@ -61,13 +61,13 @@ init_resources() ->
   Machines = create_washing_machines([5, 6, 7, 8]),
   ets:insert(laundry, {machines, Machines}),
 
-  Starting_washing_liquid = 1000.0,
+  Starting_washing_liquid = 100.0,
   Starting_washing_powder = 100.0,
-  Starting_money = 100.0,
+  Starting_money = 300.0,
   ets:insert(laundry, {machines, Machines}),
-  ets:insert(laundry, {washing_liquid, Starting_washing_liquid}),
-  ets:insert(laundry, {washing_powder, Starting_washing_powder}),
-  ets:insert(laundry, {money, Starting_money}).
+  ets:insert(laundry, {washing_liquid, Starting_washing_liquid+0}),
+  ets:insert(laundry, {washing_powder, Starting_washing_powder+0}),
+  ets:insert(laundry, {money, Starting_money+0}).
 
 
 create_washing_machines(ToCreate) ->

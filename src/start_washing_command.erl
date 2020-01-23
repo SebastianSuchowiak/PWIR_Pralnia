@@ -56,9 +56,6 @@ start_washing() ->
       use_powder(Needed_powder),
       add_money(Price),
       start_machine(Id, Weight, Program),
-      Price_string = float_to_list(Price, [{decimals,0}]),
-      io:fwrite("Charged ~s zl~n", [Price_string]),
-      timer:sleep(800),
       view_washing_progress(Id,5);
     true ->
       io:fwrite("There is not enough liquid or powder! Try again later~n")

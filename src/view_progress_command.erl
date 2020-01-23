@@ -48,7 +48,9 @@ view_washing_progress(Id,Viewing_time) ->
       ok;
     Time > 0.150 ->
       timer:sleep(150),
-      view_washing_progress(Id,Viewing_time-0.150)
+      view_washing_progress(Id,Viewing_time-0.150);
+    true ->
+      ok
   end,
   io:format("\ec").
 
